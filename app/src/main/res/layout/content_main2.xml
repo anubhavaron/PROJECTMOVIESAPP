@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+
+    android:background="#BDBDBD">
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:background="#BDBDBD"
+
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.anubhav.projectmoviesapp.Main2Activity"
+        android:orientation="vertical">
+
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:background="#BDBDBD"
+            android:layout_height="280dp"
+            android:layout_marginTop="55dp"
+            android:id="@+id/I"
+            />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:paddingTop="2dp"
+            android:layout_width="wrap_content"
+
+            android:background="#BDBDBD"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000000"
+            android:textSize="26dp"
+            />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="#BDBDBD"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="26dp"
+            android:paddingTop="2dp"
+            android:id="@+id/releasedate"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#BDBDBD"
+            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000000"
+            android:id="@+id/overview"/>
+
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_marginLeft="60dp"
+            android:layout_height="wrap_content"
+            android:background="#BDBDBD"
+            android:paddingLeft="15dp"
+            android:textSize="30dp"
+            android:layout_marginTop="10dp"
+            android:numStars="5"
+            android:id="@+id/userrating"/>
+
+
+
+
+    </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+
