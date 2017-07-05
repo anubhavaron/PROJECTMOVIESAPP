@@ -13,6 +13,7 @@
         android:id="@+id/sort2"
         android:title="POPULARITY"
         app1:showAsAction="never"
+
         ></item>
 
 </menu>
