@@ -1,23 +1,17 @@
 package com.example.anubhav.projectmoviesapp;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,16 +20,9 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static android.R.attr.data;
-import static android.R.attr.rating;
-import static android.R.attr.x;
-
 public class MainActivity extends AppCompatActivity implements PopularMoviesAdapter.PopularMoviesAdapterOnClickHandler {
-
     RecyclerView mrecyclerview;
     public PopularMoviesAdapter mAdapter;
-
-
     String[] id;
     String[] title;
     String[] overview;
@@ -43,62 +30,28 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     String[] release_date;
     String[] simple;
     int check=0;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         int x=3;
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
-
         mrecyclerview.setLayoutManager(new GridLayoutManager(this,x));
-
         mrecyclerview.setHasFixedSize(true);
         mAdapter=new PopularMoviesAdapter(this);
-
         mrecyclerview.setAdapter(mAdapter);
-
-
-
-
         loadurl();
-
-
-
-
-
-
-
-
-
-
-
-
     }
     public void loadurl()
     {
-
-
         new FetchWeatherTask().execute();
-
-
-
-
-
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
@@ -106,27 +59,18 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         {
             mAdapter.setData(null,this);
             check=1;
-
             loadurl();
         }
         if(id==R.id.sort2)
         {
             mAdapter.setData(null,this);
             check=2;
-
             loadurl();
-
-
-
         }
-
         return true;
     }
-
     public void onClick(int weatherForDay) {
         Context context = this;
-
-
         StringBuilder built=new StringBuilder();
         built.append(title[weatherForDay]);
         built.append("<");
@@ -141,53 +85,24 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         String b=built.toString();
         Toast.makeText(context,title[weatherForDay], Toast.LENGTH_SHORT)
                 .show();
-
-
         Intent i=new Intent(MainActivity.this,Main2Activity.class);
         i.putExtra(Intent.EXTRA_TEXT,b);
         startActivity(i);
-
     }
-
-    public void press(View view) {
-
-
-        loadurl();
-
-
-    }
-
     public class FetchWeatherTask extends AsyncTask<Object, Object, String[]> {
 
         @Override
         protected void onPreExecute() {
-
             super.onPreExecute();
-
         }
-
         @Override
         protected String[] doInBackground(Object... params) {
 
-            /* If there's no zip code, there's nothing to look up. */
-
-
-
-            URL MoviesURL = buildurl();
+            /* If there's no zip code, there's nothing to look up. */URL MoviesURL = buildurl();
 
             try {
                 String movieResponse = NetworkUtils
                         .getResponseFromHttpUrl(MoviesURL);
-
-
-
-
-
-
-
-
-
-
                 JSONObject popularJson=new JSONObject(movieResponse);
                 JSONArray Array=popularJson.getJSONArray("results");
                  simple=new String[Array.length()];
@@ -196,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 overview=new String[Array.length()];
                 userrating=new String[Array.length()];
                 release_date=new String[Array.length()];
-
                 for(i=0; i<Array.length() ; i++)
                 {
                     String id,posterpath;
@@ -209,30 +123,9 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                     String x=ob.getString("vote_average");
                     userrating[i]=x;
                     release_date[i]=ob.getString("release_date");
-
-
-
-
-
-
-
-
-
-
                 }
-
-
-
-
-
                 return simple;
-
-
-
-
-
             } catch (Exception e) {
-
                 e.printStackTrace();
                 return null;
             }
@@ -240,17 +133,9 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
         @Override
         protected void onPostExecute(String[] weatherData) {
-
             if (weatherData != null) {
-
-
-
-              mAdapter.setData(weatherData,getApplicationContext());
-
-
+                mAdapter.setData(weatherData,getApplicationContext());
             } else {
-
-
             }
         }
     }
@@ -272,15 +157,12 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         Uri builtUri = null;
         if(check==0)
         {
-
-
-        builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+            builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter("language", "en-US")
                 .appendQueryParameter("include_adult", "false")
                 .appendQueryParameter("page", "1")
                 .appendQueryParameter("sort_by","popularity.desc")
-
-                .build();
+                    .build();
          }
          else
              if(check==1)
@@ -291,17 +173,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                     .appendQueryParameter("include_adult", "false")
                     .appendQueryParameter("page", "1")
                     .appendQueryParameter("sort_by","popularity.desc")
-
                     .build();
-
-
-
-
-
-
-
-
-
         }
         else
             if(check==2)
@@ -312,40 +184,15 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                          .appendQueryParameter("include_adult", "false")
                          .appendQueryParameter("page", "1")
                          .appendQueryParameter("sort_by","popularity.desc")
-
                          .build();
-
-
              }
-
-
-
-
-
         URL url=null;
         try
         {
             url=new URL(builtUri.toString());
-
-
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return url;
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -2,27 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/android"
     xmlns:app1="http://schemas.android.com/apk/res-auto"
-
     >
-
     <item
-
         android:id="@+id/sort"
-
         android:title="TOP RATED"
         android:showAsAction="never">
-
-
     </item>
 
-
     <item
-
-            android:id="@+id/sort2"
+        android:id="@+id/sort2"
         android:title="POPULARITY"
         app1:showAsAction="never"
-
-
         ></item>
 
 </menu>
