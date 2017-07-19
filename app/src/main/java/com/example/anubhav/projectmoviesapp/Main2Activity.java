@@ -1,10 +1,13 @@
 package com.example.anubhav.projectmoviesapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,8 +23,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Main2Activity extends AppCompatActivity {
+import static com.example.anubhav.projectmoviesapp.R.id.overview;
+import static com.example.anubhav.projectmoviesapp.R.id.userrating;
+
+public class Main2Activity extends AppCompatActivity implements TrailerMoviesAdapter.TrailerMoviesAdapterOnClickHandler{
+    RecyclerView mrecyclerviewtrailers;
     TextView OVERVIEW;
+    public TrailerMoviesAdapter mAdapter;
     TextView TITLE;
     TextView RELEASE;
     TextView USERNAME;
@@ -43,6 +51,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
+
         Testing=(EditText)findViewById(R.id.testing);
 
 
@@ -50,9 +59,9 @@ public class Main2Activity extends AppCompatActivity {
 
         Image=(ImageView)findViewById(R.id.I);
         TITLE=(TextView)findViewById(R.id.title);
-        OVERVIEW=(TextView)findViewById(R.id.overview);
+        OVERVIEW=(TextView)findViewById(overview);
         RELEASE=(TextView)findViewById(R.id.releasedate);
-        USERNAME=(TextView) findViewById(R.id.userrating);
+        USERNAME=(TextView) findViewById(userrating);
 
 
 
@@ -139,6 +148,16 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
+        mrecyclerviewtrailers=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID_TRAILERS);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        mrecyclerviewtrailers.setLayoutManager(layoutManager);
+        mrecyclerviewtrailers.setHasFixedSize(true);
+        mAdapter=new TrailerMoviesAdapter(this);
+        mrecyclerviewtrailers.setAdapter(mAdapter);
+
+
+
+
 
 
 
@@ -221,7 +240,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-                Testing.setText(NameData[0]);
+                mAdapter.setData(NameData,getApplicationContext());
 
 
             } else {
@@ -259,6 +278,12 @@ public class Main2Activity extends AppCompatActivity {
 
 
         return finalURL;
+
+    }
+    public void onClick(int weatherForDay) {
+        Toast.makeText(Main2Activity.this,weatherForDay+"",Toast.LENGTH_SHORT).show();
+
+
 
     }
 
