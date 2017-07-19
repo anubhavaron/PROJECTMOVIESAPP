@@ -1,36 +1,25 @@
 package com.example.anubhav.projectmoviesapp;
 
 import android.content.Intent;
-import android.media.Image;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static com.example.anubhav.projectmoviesapp.MainActivity.id_clicked;
 
 public class Main2Activity extends AppCompatActivity {
     TextView OVERVIEW;
     TextView TITLE;
     TextView RELEASE;
     TextView USERNAME;
-    EditText Testing;
-    public static String TrailersUrl="https://api.themoviedb.org/3/movie";
-    String id;
+
+
 
     ImageView Image;
     @Override
@@ -44,7 +33,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-        Testing=(EditText)findViewById(R.id.testing);
+
 
 
 
@@ -59,9 +48,6 @@ public class Main2Activity extends AppCompatActivity {
 
         Intent i=getIntent();
         String text = null;
-        id=MainActivity.id_clicked;
-        Toast.makeText(Main2Activity.this,id, Toast.LENGTH_SHORT)
-                .show();
         if(i.hasExtra(Intent.EXTRA_TEXT))
         {
             text=i.getStringExtra(i.EXTRA_TEXT);
@@ -145,71 +131,8 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-        FetchingStartoftrailer();
-
-    }
-
-    private void FetchingStartoftrailer() {
-
-
-        new FetchTrailerTask().execute();
-
-    }
-
-    public class FetchTrailerTask extends AsyncTask<Object,Object,String[]>
-    {
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected String[] doInBackground(Object... params) {
-
-            URL TRAILERURL=buildUrlForTarilers();
-
-            Testing.setText(TRAILERURL.toString());
-            return new String[0];
-
-
-
-
-        }
-
-
 
 
     }
-
-
-
-    public URL buildUrlForTarilers()
-    {
-        Uri trailerBuiltUri=null;
-
-        StringBuilder BaseUrlString=new StringBuilder();
-        BaseUrlString.append(TrailersUrl);
-        BaseUrlString.append("/"+id+"/videos"+"?api_key=14ba823de3e05b5696f262efbdfe38ad");
-        String BaseUrlStr=BaseUrlString.toString();
-
-        trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()
-                .appendQueryParameter("language","en-US").build();
-
-        URL finalURL=null;
-        try{
-            finalURL=new URL(trailerBuiltUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-
-        return finalURL;
-
-    }
-
-
-
 
 }
