@@ -38,7 +38,6 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-
         Image=(ImageView)findViewById(R.id.I);
         TITLE=(TextView)findViewById(R.id.title);
         OVERVIEW=(TextView)findViewById(R.id.overview);

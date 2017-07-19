@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
             loadurl();
         }
-        if(id==R.id.sort2)
+        if(id==R.id.sort)
         {
             mAdapter.setData(null,this);
             check=2;
@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
     public URL buildurl()
-    {   
+    {
         Uri builtUri = null;
         if(check==0)
         {
