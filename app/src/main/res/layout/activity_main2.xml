@@ -18,7 +18,19 @@
         tools:context="com.example.anubhav.projectmoviesapp.Main2Activity"
         android:orientation="vertical">
 
+        <android.support.v7.widget.RecyclerView android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:id="@+id/RECYCLER_VIEW_ID_TRAILERS"
+            android:background="#000000"
 
+
+
+
+
+
+
+
+            />
 
         <ImageView
             android:layout_width="match_parent"
