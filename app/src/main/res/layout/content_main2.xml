@@ -76,6 +76,11 @@
             android:numStars="5"
             android:id="@+id/userrating"/>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/testing"/>
+
 
 
 

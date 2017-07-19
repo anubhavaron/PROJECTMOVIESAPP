@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     RecyclerView mrecyclerview;
     public PopularMoviesAdapter mAdapter;
-
+    static String id_clicked;
 
     String[] id;
     String[] title;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     String[] userrating;
     String[] release_date;
     String[] simple;
-    boolean check=true;
+    int check=0;
 
 
 
@@ -105,9 +105,19 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         if(id==R.id.sort)
         {
             mAdapter.setData(null,this);
-            check=false;
+            check=1;
 
             loadurl();
+        }
+        if(id==R.id.sort2)
+        {
+            mAdapter.setData(null,this);
+            check=2;
+
+            loadurl();
+
+
+
         }
 
         return true;
@@ -116,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public void onClick(int weatherForDay) {
         Context context = this;
 
+        id_clicked=id[weatherForDay];
 
         StringBuilder built=new StringBuilder();
         built.append(title[weatherForDay]);
@@ -129,8 +140,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         built.append(userrating[weatherForDay]);
         built.append("<");
         String b=built.toString();
-        Toast.makeText(context,title[weatherForDay], Toast.LENGTH_SHORT)
-                .show();
+
 
 
         Intent i=new Intent(MainActivity.this,Main2Activity.class);
@@ -186,12 +196,12 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 overview=new String[Array.length()];
                 userrating=new String[Array.length()];
                 release_date=new String[Array.length()];
-
+                id=new String[Array.length()];
                 for(i=0; i<Array.length() ; i++)
                 {
-                    String id,posterpath;
+                    String posterpath;
                     JSONObject ob=Array.getJSONObject(i);
-                    id=ob.getString("id");
+                    id[i]=ob.getString("id");
                     posterpath=ob.getString("poster_path");
                     simple[i]=posterpath;
                     title[i]=ob.getString("title");
@@ -249,15 +259,18 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
             "https://api.themoviedb.org/3/discover/movie?api_key=14ba823de3e05b5696f262efbdfe38ad";
     private static final String STATIC_WEATHER_URL2 =
             "https://api.themoviedb.org/3/movie/top_rated?api_key=14ba823de3e05b5696f262efbdfe38ad";
+    private static final String STATIC_WEATHER_URL3 =
+            "https://api.themoviedb.org/3/movie/popular?api_key=14ba823de3e05b5696f262efbdfe38ad";
 
     private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
     private static final String FORECAST_BASE_URL2 = STATIC_WEATHER_URL2;
+    private static final String FORECAST_BASE_URL3 = STATIC_WEATHER_URL3;
 
 
     public URL buildurl()
     {   
         Uri builtUri = null;
-        if(check==true)
+        if(check==0)
         {
 
 
@@ -270,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 .build();
          }
          else
+             if(check==1)
         {
 
             builtUri = Uri.parse(FORECAST_BASE_URL2).buildUpon()
@@ -289,6 +303,22 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
         }
+        else
+            if(check==2)
+             {
+
+                 builtUri = Uri.parse(FORECAST_BASE_URL3).buildUpon()
+                         .appendQueryParameter("language", "en-US")
+                         .appendQueryParameter("include_adult", "false")
+                         .appendQueryParameter("page", "1")
+                         .appendQueryParameter("sort_by","popularity.desc")
+
+                         .build();
+
+
+             }
+
+
 
 
 
