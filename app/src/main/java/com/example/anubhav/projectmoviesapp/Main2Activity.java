@@ -1,27 +1,24 @@
 package com.example.anubhav.projectmoviesapp;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import static com.example.anubhav.projectmoviesapp.MainActivity.id_clicked;
 
 public class Main2Activity extends AppCompatActivity {
     TextView OVERVIEW;
@@ -29,6 +26,8 @@ public class Main2Activity extends AppCompatActivity {
     TextView RELEASE;
     TextView USERNAME;
     EditText Testing;
+    String[] key;
+    String[] Name;
     public static String TrailersUrl="https://api.themoviedb.org/3/movie";
     String id;
 
@@ -60,8 +59,7 @@ public class Main2Activity extends AppCompatActivity {
         Intent i=getIntent();
         String text = null;
         id=MainActivity.id_clicked;
-        Toast.makeText(Main2Activity.this,id, Toast.LENGTH_SHORT)
-                .show();
+
         if(i.hasExtra(Intent.EXTRA_TEXT))
         {
             text=i.getStringExtra(i.EXTRA_TEXT);
@@ -170,12 +168,67 @@ public class Main2Activity extends AppCompatActivity {
 
             URL TRAILERURL=buildUrlForTarilers();
 
-            Testing.setText(TRAILERURL.toString());
-            return new String[0];
+
+
+            try {
+                String movieResponseTrailer = NetworkUtils
+                        .getResponseFromHttpUrl(TRAILERURL);
+
+                JSONObject popularJson=new JSONObject(movieResponseTrailer);
+                JSONArray Array=popularJson.getJSONArray("results");
+                key=new String[Array.length()];
+                Name=new String[Array.length()];
+                int i;
+                for(i=0;i<Array.length();i++)
+                {
+                    JSONObject ob=Array.getJSONObject(i);
+                    key[i]=ob.getString("key");
+                    Name[i]=ob.getString("name");
 
 
 
 
+                }
+
+
+
+
+
+
+
+
+
+
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return Name;
+
+
+
+
+        }
+        @Override
+        protected void onPostExecute(String[] NameData) {
+
+            if (NameData != null) {
+
+
+
+                Testing.setText(NameData[0]);
+
+
+            } else {
+                Testing.setText("kuch nh liya");
+
+
+            }
         }
 
 
