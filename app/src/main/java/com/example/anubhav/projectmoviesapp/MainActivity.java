@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
             loadurl();
         }
-        if(id==R.id.sort)
+        if(id==R.id.sort2)
         {
             mAdapter.setData(null,this);
             check=2;
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
                 JSONObject popularJson=new JSONObject(movieResponse);
                 JSONArray Array=popularJson.getJSONArray("results");
-                 simple=new String[Array.length()];
+                simple=new String[Array.length()];
                 int i;int j=0;
                 title=new String[Array.length()];
                 overview=new String[Array.length()];
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
-              mAdapter.setData(weatherData,getApplicationContext());
+                mAdapter.setData(weatherData,getApplicationContext());
 
 
             } else {
@@ -274,16 +274,16 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         {
 
 
-        builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                .appendQueryParameter("language", "en-US")
-                .appendQueryParameter("include_adult", "false")
-                .appendQueryParameter("page", "1")
-                .appendQueryParameter("sort_by","popularity.desc")
+            builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                    .appendQueryParameter("language", "en-US")
+                    .appendQueryParameter("include_adult", "false")
+                    .appendQueryParameter("page", "1")
+                    .appendQueryParameter("sort_by","popularity.desc")
 
-                .build();
-         }
-         else
-             if(check==1)
+                    .build();
+        }
+        else
+        if(check==1)
         {
 
             builtUri = Uri.parse(FORECAST_BASE_URL2).buildUpon()
@@ -304,19 +304,19 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
         }
         else
-            if(check==2)
-             {
+        if(check==2)
+        {
 
-                 builtUri = Uri.parse(FORECAST_BASE_URL3).buildUpon()
-                         .appendQueryParameter("language", "en-US")
-                         .appendQueryParameter("include_adult", "false")
-                         .appendQueryParameter("page", "1")
-                         .appendQueryParameter("sort_by","popularity.desc")
+            builtUri = Uri.parse(FORECAST_BASE_URL3).buildUpon()
+                    .appendQueryParameter("language", "en-US")
+                    .appendQueryParameter("include_adult", "false")
+                    .appendQueryParameter("page", "1")
+                    .appendQueryParameter("sort_by","popularity.desc")
 
-                         .build();
+                    .build();
 
 
-             }
+        }
 
 
 

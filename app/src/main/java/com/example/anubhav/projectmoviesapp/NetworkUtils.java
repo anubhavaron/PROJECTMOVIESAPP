@@ -1,10 +1,13 @@
 package com.example.anubhav.projectmoviesapp;
 
+import android.net.Uri;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -14,7 +17,11 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-EditText e;
+    EditText e;
+
+
+
+
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
