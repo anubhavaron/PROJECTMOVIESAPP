@@ -37,6 +37,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
     EditText Testing;
     String[] key;
     String[] Name;
+    String[] Reviews=null;
     public static String TrailersUrl="https://api.themoviedb.org/3/movie";
     String id;
 
@@ -171,6 +172,70 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
         new FetchTrailerTask().execute();
+        new FetchReviewsTask().execute();
+
+    }
+    public class FetchReviewsTask extends AsyncTask<Object,Object,String[]>
+    {
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String[] doInBackground(Object... params) {
+
+            URL REVIEWURL=buildUrlForReviews();
+
+            try {
+                String movieResponseTrailer = NetworkUtils
+                        .getResponseFromHttpUrl(REVIEWURL);
+
+                JSONObject popularJson=new JSONObject(movieResponseTrailer);
+                JSONArray Array=popularJson.getJSONArray("results");
+                if(Array.length()==0)
+                    return null;
+                Reviews=new String[Array.length()];
+                int i;
+                for(i=0;i<Array.length();i++)
+                {
+
+                    JSONObject ob=Array.getJSONObject(i);
+                    Reviews[i]=ob.getString("content");
+
+
+
+                }
+
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return Reviews;
+        }
+
+        @Override
+        protected void onPostExecute(String[] NameData) {
+
+            if (NameData != null) {
+
+
+
+                Testing.setText(NameData[0]+"");
+
+
+            } else {
+                Testing.setText("kuch nh liya");
+
+
+            }
+        }
 
     }
 
@@ -244,6 +309,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
                 mAdapter.setData(NameData,getApplicationContext());
 
 
+
             } else {
                 Testing.setText("kuch nh liya");
 
@@ -269,6 +335,33 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
         trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()
                 .appendQueryParameter("language","en-US").build();
+
+        URL finalURL=null;
+        try{
+            finalURL=new URL(trailerBuiltUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+        return finalURL;
+
+    }
+
+
+    public URL buildUrlForReviews()
+    {
+        Uri trailerBuiltUri=null;
+
+        StringBuilder BaseUrlString=new StringBuilder();
+        BaseUrlString.append(TrailersUrl);
+        BaseUrlString.append("/"+id+"/reviews"+"?api_key=14ba823de3e05b5696f262efbdfe38ad");
+        String BaseUrlStr=BaseUrlString.toString();
+
+        trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()
+                .appendQueryParameter("language","en-US")
+                .appendQueryParameter("page","1").build();
+            Testing.setText(trailerBuiltUri.toString());
 
         URL finalURL=null;
         try{

@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         built.append("<");
         String b=built.toString();
 
-
+        Toast.makeText(MainActivity.this,id_clicked,Toast.LENGTH_SHORT).show();
 
         Intent i=new Intent(MainActivity.this,Main2Activity.class);
         i.putExtra(Intent.EXTRA_TEXT,b);
