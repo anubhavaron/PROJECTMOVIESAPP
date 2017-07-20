@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -281,7 +282,18 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
     }
     public void onClick(int weatherForDay) {
-        Toast.makeText(Main2Activity.this,weatherForDay+"",Toast.LENGTH_SHORT).show();
+
+
+        StringBuilder s=new StringBuilder();
+        s.append("https://www.youtube.com/watch?v="+key[weatherForDay]);
+        String url=s.toString();
+        Uri webpage=Uri.parse(url);
+        Intent i=new Intent(Intent.ACTION_VIEW,webpage);
+        if(i.resolveActivity(getPackageManager())!=null)
+        {
+            startActivity(i);
+        }
+        Testing.setText(s);
 
 
 
