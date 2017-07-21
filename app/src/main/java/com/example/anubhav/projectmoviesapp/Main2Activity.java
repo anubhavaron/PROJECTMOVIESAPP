@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ import static com.example.anubhav.projectmoviesapp.R.id.overview;
 import static com.example.anubhav.projectmoviesapp.R.id.userrating;
 
 public class Main2Activity extends AppCompatActivity implements TrailerMoviesAdapter.TrailerMoviesAdapterOnClickHandler{
+
+
     RecyclerView mrecyclerviewtrailers;
     TextView OVERVIEW;
     public TrailerMoviesAdapter mAdapter;
@@ -174,6 +177,22 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
        new FetchTrailerTask().execute();
         new FetchReviewsTask().execute();
+
+
+    }
+
+    public void CLICKIT(View view) {
+
+
+
+        Toast.makeText(Main2Activity.this,"CLICKED",Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
 
 
     }
