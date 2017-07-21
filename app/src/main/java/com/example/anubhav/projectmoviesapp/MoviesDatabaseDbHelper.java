@@ -19,7 +19,9 @@ public class MoviesDatabaseDbHelper extends SQLiteOpenHelper {
 
     public MoviesDatabaseDbHelper(Context context)
     {
+
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
+
 
     }
 
@@ -34,9 +36,7 @@ public class MoviesDatabaseDbHelper extends SQLiteOpenHelper {
                 + MoviesDatabaseContract.moviesEntry.overview_of_item+" TEXT NOT NULL);";
 
 
-
-
-                db.execSQL(SQL_CREATE_TABLE);
+                   db.execSQL(SQL_CREATE_TABLE);
 
     }
 
