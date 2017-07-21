@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         int x=3;
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
         db.getWritableDatabase();
+
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
 
 
