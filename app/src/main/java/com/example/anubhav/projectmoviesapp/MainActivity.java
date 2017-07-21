@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
             } else {
-
+                        mAdapter.setData(null,getApplicationContext());
 
             }
         }

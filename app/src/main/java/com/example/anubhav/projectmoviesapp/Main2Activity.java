@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,8 +36,8 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
     TextView RELEASE;
     TextView USERNAME;
     EditText Testing;
-    String[] key;
-    String[] Name;
+     String[] key;
+     String[] Name;
     String[] Reviews=null;
     public static String TrailersUrl="https://api.themoviedb.org/3/movie";
     String id;
@@ -159,7 +160,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
 
-
+        Reviews=null;
 
 
 
@@ -171,10 +172,12 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
     private void FetchingStartoftrailer() {
 
 
-        new FetchTrailerTask().execute();
+       new FetchTrailerTask().execute();
         new FetchReviewsTask().execute();
 
+
     }
+
     public class FetchReviewsTask extends AsyncTask<Object,Object,String[]>
     {
         @Override
@@ -195,6 +198,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
                 JSONObject popularJson=new JSONObject(movieResponseTrailer);
                 JSONArray Array=popularJson.getJSONArray("results");
+
                 if(Array.length()==0)
                     return null;
                 Reviews=new String[Array.length()];
@@ -230,6 +234,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
                 Testing.setText(NameData[0]+"");
 
 
+
             } else {
                 Testing.setText("kuch nh liya");
 
@@ -239,7 +244,9 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
     }
 
-    public class FetchTrailerTask extends AsyncTask<Object,Object,String[]>
+
+
+    public class FetchTrailerTask extends AsyncTask<Object,Object,String[] >
     {
         @Override
         protected void onPreExecute() {
@@ -289,11 +296,14 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
                 e.printStackTrace();
             } catch (JSONException e) {
+
                 e.printStackTrace();
             }
 
-
             return Name;
+
+
+
 
 
 
@@ -310,11 +320,18 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
 
+
+
             } else {
-                Testing.setText("kuch nh liya");
+                mAdapter.setData(null,getApplicationContext());
 
 
             }
+
+
+
+
+
         }
 
 
@@ -361,12 +378,13 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()
                 .appendQueryParameter("language","en-US")
                 .appendQueryParameter("page","1").build();
-            Testing.setText(trailerBuiltUri.toString());
+
 
         URL finalURL=null;
         try{
             finalURL=new URL(trailerBuiltUri.toString());
         } catch (MalformedURLException e) {
+
             e.printStackTrace();
         }
 
@@ -386,11 +404,13 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         {
             startActivity(i);
         }
-        Testing.setText(s);
+
 
 
 
     }
+
+
 
 
 
