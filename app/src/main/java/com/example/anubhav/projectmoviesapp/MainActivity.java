@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     String[] title;
     String[] overview;
     String[] userrating;
+    String x;
     String[] release_date;
     String[] simple;
     int check=0;
