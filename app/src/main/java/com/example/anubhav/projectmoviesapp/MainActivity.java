@@ -103,9 +103,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
 
+
+                int id = (int) viewHolder.itemView.getTag();
+
+                // Build appropriate uri with String row id appended
+                String stringId = Integer.toString(id);
+                Uri uri = MoviesDatabaseContract.moviesEntry.CONTENT_URI;
+                uri = uri.buildUpon().appendPath(stringId).build();
+
+                // COMPLETED (2) Delete a single row of data using a ContentResolver
+                getContentResolver().delete(uri, null, null);
+                mAdapterFaviorate.swapCursor(getAllguests());
+
+                // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
+
+
+                /*
                 int id=(int)viewHolder.itemView.getTag();
                 removeguest(id);
-                mAdapterFaviorate.swapCursor(getAllguests());
+                */
 
             }
         }).attachToRecyclerView(mrecyclerviewforfaviorate);
@@ -178,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         {
 
             mrecyclerviewforfaviorate.setVisibility(View.VISIBLE);
-            Cursor cursor=getAllguests();
+            /*Cursor cursor=getAllguests();
             StringBuilder b=new StringBuilder();
             b.append("1 ");
             while(cursor.moveToNext())
@@ -188,7 +204,12 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 b.append(cursor.getString(cursor.getColumnIndex(MoviesDatabaseContract.moviesEntry.title_of_item)));
 
 
-            }
+            }*/
+            Cursor cursor= getContentResolver().query(MoviesDatabaseContract.moviesEntry.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    MoviesDatabaseContract.moviesEntry.id_of_item);
 
 
             mAdapterFaviorate.swapCursor(cursor);

@@ -52,7 +52,54 @@ public class MoviesDatabaseContractProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+
+
+
+
+
+        // COMPLETED (1) Get access to underlying database (read-only for query)
+        final SQLiteDatabase db = mMoviesDbHelper.getReadableDatabase();
+
+        // COMPLETED (2) Write URI match code and set a variable to return a Cursor
+        int match = sUriMatcher.match(uri);
+        Cursor retCursor;
+
+        // COMPLETED (3) Query for the tasks directory and write a default case
+        switch (match) {
+            // Query for the tasks directory
+            case TASKS:
+                retCursor =  db.query(MoviesDatabaseContract.moviesEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            // Default exception
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        // COMPLETED (4) Set a notification URI on the Cursor and return that Cursor
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        // Return the desired Cursor
+        return retCursor;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     @Nullable
@@ -124,7 +171,44 @@ public class MoviesDatabaseContractProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+
+
+
+
+        final SQLiteDatabase db = mMoviesDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        // Keep track of the number of deleted tasks
+        int tasksDeleted; // starts as 0
+
+        // Write the code to delete a single row of data
+        // [Hint] Use selections to delete an item by its row ID
+        switch (match) {
+            // Handle the single item case, recognized by the ID included in the URI path
+            case TASK_WITH_ID:
+                // Get the task ID from the URI path
+                String id = uri.getPathSegments().get(1);
+                // Use selections/selectionArgs to filter for this ID
+                tasksDeleted = db.delete(MoviesDatabaseContract.moviesEntry.TABLE_NAME,MoviesDatabaseContract.moviesEntry.id_of_item+"=?", new String[]{id});
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        // Notify the resolver of a change and return the number of items deleted
+        if (tasksDeleted != 0) {
+            // A task was deleted, set notification
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Return the number of tasks deleted
+        return tasksDeleted;
+
+
+
+
+
+
     }
 
     @Override
