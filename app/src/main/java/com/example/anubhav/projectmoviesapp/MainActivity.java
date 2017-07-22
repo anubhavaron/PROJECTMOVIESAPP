@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -86,7 +87,28 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         mAdapter=new PopularMoviesAdapter(this);
 
         mrecyclerview.setAdapter(mAdapter);
+        Cursor cursor=getAllguests();
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        mrecyclerviewforfaviorate.setLayoutManager(layoutManager);
+        mrecyclerviewforfaviorate.setHasFixedSize(true);
+        mAdapterFaviorate=new FaviorateAdapter(this,cursor);
+        mrecyclerviewforfaviorate.setAdapter(mAdapterFaviorate);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+
+                int id=(int)viewHolder.itemView.getTag();
+                removeguest(id);
+                mAdapterFaviorate.swapCursor(getAllguests());
+
+            }
+        }).attachToRecyclerView(mrecyclerviewforfaviorate);
 
 
 
@@ -155,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         if(id==R.id.sort3)
         {
 
-
+            mrecyclerviewforfaviorate.setVisibility(View.VISIBLE);
             Cursor cursor=getAllguests();
             StringBuilder b=new StringBuilder();
             b.append("1 ");
@@ -168,11 +190,10 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
             }
 
-            LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-            mrecyclerviewforfaviorate.setLayoutManager(layoutManager);
-            mrecyclerviewforfaviorate.setHasFixedSize(true);
-            mAdapterFaviorate=new FaviorateAdapter(this,cursor);
-            mrecyclerviewforfaviorate.setAdapter(mAdapterFaviorate);
+
+            mAdapterFaviorate.swapCursor(cursor);
+
+
 
 
 
@@ -393,7 +414,13 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
     }
+    public boolean removeguest(int id)
+    {
 
+        return mdb.delete(MoviesDatabaseContract.moviesEntry.TABLE_NAME,MoviesDatabaseContract.moviesEntry.id_of_item+"="+id,null)>0;
+
+
+    }
 
 
 
