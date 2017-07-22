@@ -199,11 +199,17 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         cv.put(MoviesDatabaseContract.moviesEntry.id_of_item,Integer.parseInt(id_of_that_item));
         cv.put(MoviesDatabaseContract.moviesEntry.title_of_item,title_of_that_item);
         cv.put(MoviesDatabaseContract.moviesEntry.overview_of_item,overview_of_that_item);
+        /*
         long result=mydb.insert(MoviesDatabaseContract.moviesEntry.TABLE_NAME,null,cv);
         if(result==-1)
             Toast.makeText(Main2Activity.this,"NOT Inserted",Toast.LENGTH_SHORT).show();
         else
         Toast.makeText(Main2Activity.this,"Inserted",Toast.LENGTH_SHORT).show();
+        */
+        Uri uri=getContentResolver().insert(MoviesDatabaseContract.moviesEntry.CONTENT_URI,cv);
+        Toast.makeText(Main2Activity.this,uri.toString(),Toast.LENGTH_SHORT).show();
+
+
     }
 
     public class FetchReviewsTask extends AsyncTask<Object,Object,String[]>
