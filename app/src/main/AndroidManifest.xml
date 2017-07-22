@@ -22,7 +22,24 @@
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:authorities="com.example.anubhav.projectmoviesapp"
+            android:name="com.example.anubhav.projectmoviesapp.MoviesDatabaseContractProvider"
+            android:exported="false"/>
+
+
+
     </application>
+
+
+
+
+
+
+
+
+
 
 </manifest>
