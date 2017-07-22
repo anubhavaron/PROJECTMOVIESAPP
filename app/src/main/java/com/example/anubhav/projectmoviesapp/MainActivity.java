@@ -3,6 +3,7 @@ package com.example.anubhav.projectmoviesapp;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -34,7 +35,9 @@ import static android.R.attr.x;
 public class MainActivity extends AppCompatActivity implements PopularMoviesAdapter.PopularMoviesAdapterOnClickHandler {
 
     RecyclerView mrecyclerview;
+    RecyclerView mrecyclerviewforfaviorate;
     public PopularMoviesAdapter mAdapter;
+    public FaviorateAdapter mAdapterFaviorate;
     SQLiteDatabase mdb;
     static String id_clicked;
 
@@ -59,9 +62,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         mdb=db.getWritableDatabase();
 
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
+        mrecyclerviewforfaviorate=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID_Faviorate);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         mrecyclerview.setLayoutManager(new GridLayoutManager(this,x));
+
 
         mrecyclerview.setHasFixedSize(true);
         mAdapter=new PopularMoviesAdapter(this);
@@ -97,6 +116,14 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
     }
+    public Cursor getAllguests()
+    {
+
+        return mdb.query(MoviesDatabaseContract.moviesEntry.TABLE_NAME,null,null,null,null,null,MoviesDatabaseContract.moviesEntry.id_of_item);
+
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,7 +152,37 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
         }
+        if(id==R.id.sort3)
+        {
 
+
+            Cursor cursor=getAllguests();
+            StringBuilder b=new StringBuilder();
+            b.append("1 ");
+            while(cursor.moveToNext())
+            {
+
+
+                b.append(cursor.getString(cursor.getColumnIndex(MoviesDatabaseContract.moviesEntry.title_of_item)));
+
+
+            }
+
+            LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            mrecyclerviewforfaviorate.setLayoutManager(layoutManager);
+            mrecyclerviewforfaviorate.setHasFixedSize(true);
+            mAdapterFaviorate=new FaviorateAdapter(this,cursor);
+            mrecyclerviewforfaviorate.setAdapter(mAdapterFaviorate);
+
+
+
+
+
+
+
+
+
+        }
         return true;
     }
 
@@ -155,13 +212,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     }
 
-    public void press(View view) {
 
-
-        loadurl();
-
-
-    }
 
     public class FetchWeatherTask extends AsyncTask<Object, Object, String[]> {
 
@@ -248,7 +299,6 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         protected void onPostExecute(String[] weatherData) {
 
             if (weatherData != null) {
-
 
 
                 mAdapter.setData(weatherData,getApplicationContext());

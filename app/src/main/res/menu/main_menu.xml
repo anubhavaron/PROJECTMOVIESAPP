@@ -20,5 +20,9 @@
         android:id="@+id/sort2"
         android:title="POPULARITY"
         app1:showAsAction="never" />
+    <item
+        android:id="@+id/sort3"
+        android:title="getAllGuest"
+        app1:showAsAction="never" />
 
 </menu>
