@@ -14,6 +14,11 @@
         android:id="@+id/RECYCLER_VIEW_ID"
         android:background="#000000"
 />
+    <android.support.v7.widget.RecyclerView android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/RECYCLER_VIEW_ID_Faviorate"
+        android:background="#000000"
+        />
 
 
 

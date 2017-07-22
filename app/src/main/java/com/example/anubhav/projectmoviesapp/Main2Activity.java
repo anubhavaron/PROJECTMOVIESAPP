@@ -1,7 +1,9 @@
 package com.example.anubhav.projectmoviesapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,14 +35,20 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
     RecyclerView mrecyclerviewtrailers;
+
+    SQLiteDatabase mydb;
     TextView OVERVIEW;
     public TrailerMoviesAdapter mAdapter;
     TextView TITLE;
     TextView RELEASE;
     TextView USERNAME;
     EditText Testing;
+    String id_of_that_item;
+    String overview_of_that_item;
+    String title_of_that_item;
      String[] key;
      String[] Name;
+
     String[] Reviews=null;
     public static String TrailersUrl="https://api.themoviedb.org/3/movie";
     String id;
@@ -52,7 +60,8 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         setContentView(R.layout.activity_main2);
 
 
-
+        MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
+        mydb=db.getWritableDatabase();
 
 
 
@@ -61,7 +70,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         Testing=(EditText)findViewById(R.id.testing);
 
 
-
+        id_of_that_item=MainActivity.id_clicked;
 
         Image=(ImageView)findViewById(R.id.I);
         TITLE=(TextView)findViewById(R.id.title);
@@ -138,6 +147,8 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         RELEASE.setText(realeasedate.toString());
         OVERVIEW.setText(overview.toString());
         TITLE.setText(title.toString());
+        title_of_that_item=title.toString();
+        overview_of_that_item=overview.toString();
 
         USERNAME.setText(userrating.toString()+"/"+"10 STARS");
 
@@ -184,17 +195,15 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
     public void CLICKIT(View view) {
 
 
-
-        Toast.makeText(Main2Activity.this,"CLICKED",Toast.LENGTH_SHORT).show();
-
-
-
-
-
-
-
-
-
+        ContentValues cv=new ContentValues();
+        cv.put(MoviesDatabaseContract.moviesEntry.id_of_item,Integer.parseInt(id_of_that_item));
+        cv.put(MoviesDatabaseContract.moviesEntry.title_of_item,title_of_that_item);
+        cv.put(MoviesDatabaseContract.moviesEntry.overview_of_item,overview_of_that_item);
+        long result=mydb.insert(MoviesDatabaseContract.moviesEntry.TABLE_NAME,null,cv);
+        if(result==-1)
+            Toast.makeText(Main2Activity.this,"NOT Inserted",Toast.LENGTH_SHORT).show();
+        else
+        Toast.makeText(Main2Activity.this,"Inserted",Toast.LENGTH_SHORT).show();
     }
 
     public class FetchReviewsTask extends AsyncTask<Object,Object,String[]>

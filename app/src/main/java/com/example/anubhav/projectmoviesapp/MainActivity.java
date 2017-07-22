@@ -3,6 +3,7 @@ package com.example.anubhav.projectmoviesapp;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     RecyclerView mrecyclerview;
     public PopularMoviesAdapter mAdapter;
+    SQLiteDatabase mdb;
     static String id_clicked;
 
     String[] id;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
         int x=3;
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
-        db.getWritableDatabase();
+        mdb=db.getWritableDatabase();
 
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
 
