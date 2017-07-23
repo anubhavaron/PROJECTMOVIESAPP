@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     SQLiteDatabase mdb;
     static String id_clicked;
 
+
     String[] id;
     String[] title;
     String[] overview;
