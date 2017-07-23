@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
+
             int myInt = savedInstanceState.getInt("MyInt");
 
             if(myInt==0)
