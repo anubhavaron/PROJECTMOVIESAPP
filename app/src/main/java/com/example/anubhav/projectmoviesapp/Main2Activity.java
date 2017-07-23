@@ -340,18 +340,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
                 }
-
-
-
-
-
-
-
-
-
-
-
-            } catch (IOException e) {
+                } catch (IOException e) {
 
                 e.printStackTrace();
             } catch (JSONException e) {

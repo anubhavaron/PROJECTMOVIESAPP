@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public FaviorateAdapter mAdapterFaviorate;
     SQLiteDatabase mdb;
     static String id_clicked;
+    static int value_for_saved_instance=0;
 
 
     String[] id;
@@ -65,38 +66,14 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
         mrecyclerviewforfaviorate=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID_Faviorate);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        mrecyclerview.setLayoutManager(new GridLayoutManager(this,x));
+         mrecyclerview.setLayoutManager(new GridLayoutManager(this,x));
 
 
         mrecyclerview.setHasFixedSize(true);
         mAdapter=new PopularMoviesAdapter(this);
 
         mrecyclerview.setAdapter(mAdapter);
-
-
-
-
-
-
-
-
-        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mrecyclerviewforfaviorate.setLayoutManager(layoutManager);
         mrecyclerviewforfaviorate.setHasFixedSize(true);
         mAdapterFaviorate=new FaviorateAdapter(this);
@@ -120,35 +97,56 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
                 int id = (int) viewHolder.itemView.getTag();
 
-                // Build appropriate uri with String row id appended
+
                 String stringId = Integer.toString(id);
                 Uri uri = MoviesDatabaseContract.moviesEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
 
-                // COMPLETED (2) Delete a single row of data using a ContentResolver
+
                 getContentResolver().delete(uri, null, null);
                 mAdapterFaviorate.swapCursor(getAllguests());
 
-                // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
-
-
-                /*
-                int id=(int)viewHolder.itemView.getTag();
-                removeguest(id);
-                */
 
             }
         }).attachToRecyclerView(mrecyclerviewforfaviorate);
 
 
 
-        loadurl();
+
+
+        if(savedInstanceState==null)
+            loadurl();
+        else
+        {
+
+
+
+
+            int myInt = savedInstanceState.getInt("MyInt");
+
+            if(myInt==0)
+                loadurl();
+            else
+            if(myInt==1)
+            {
+                doingsortaccordingtodefault();
+            }
+            else
+            if(myInt==2)
+            {
+                doingsortaccordingtopopularity();
+            }
+            else
+            {
+                SHOWINGFAVIORATEMOVIESLISTHERE();
+            }
 
 
 
 
 
 
+        }
 
 
 
@@ -156,15 +154,60 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
     }
-    public void loadurl()
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+
+        savedInstanceState.putInt("MyInt", value_for_saved_instance);
+
+        // etc.
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+
+        int myInt = savedInstanceState.getInt("MyInt");
+
+        if(myInt==0)
+            loadurl();
+        else
+            if(myInt==1)
+            {
+                doingsortaccordingtodefault();
+            }
+            else
+                if(myInt==2)
+                {
+                    doingsortaccordingtopopularity();
+                }
+                else
+                {
+                    SHOWINGFAVIORATEMOVIESLISTHERE();
+                }
+
+    }
+
+
+
+
+    //load url function is for TaskFetching Through Main Activity
+    // check =0 makes def
+    // check=1 makes Popularity
+    // check=2 makes Top rated
+    //check=3 makes data show
+
+
+     public void loadurl()
     {
 
 
         new FetchWeatherTask().execute();
-
-
-
-
 
 
     }
@@ -188,32 +231,51 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
         if(id==R.id.sort)
-        {   mrecyclerview.setVisibility(View.VISIBLE);
-            mrecyclerviewforfaviorate.setVisibility(View.INVISIBLE);
-            mAdapter.setData(null,this);
-            check=1;
+        {
+            value_for_saved_instance=1;
+            doingsortaccordingtodefault();
 
-            loadurl();
         }
         if(id==R.id.sort2)
-        {   mrecyclerview.setVisibility(View.VISIBLE);
-            mrecyclerviewforfaviorate.setVisibility(View.INVISIBLE);
-            mAdapter.setData(null,this);
-            check=2;
-
-            loadurl();
-
-
+        {
+            value_for_saved_instance=2;
+            doingsortaccordingtopopularity();
 
         }
         if(id==R.id.sort3)
         {
-
+            value_for_saved_instance=3;
                 SHOWINGFAVIORATEMOVIESLISTHERE();
 
         }
         return true;
     }
+
+    public void doingsortaccordingtodefault()
+    {
+        mrecyclerview.setVisibility(View.VISIBLE);
+        mrecyclerviewforfaviorate.setVisibility(View.INVISIBLE);
+        mAdapter.setData(null,this);
+        check=1;
+        loadurl();
+
+
+
+    }
+    public void doingsortaccordingtopopularity()
+    {
+        mrecyclerview.setVisibility(View.VISIBLE);
+        mrecyclerviewforfaviorate.setVisibility(View.INVISIBLE);
+        mAdapter.setData(null,this);
+        check=2;
+
+        loadurl();
+
+   }
+
+
+
+
 
     public void onClick(int weatherForDay) {
         Context context = this;
@@ -233,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         built.append("<");
         String b=built.toString();
 
-        Toast.makeText(MainActivity.this,id_clicked,Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this,id_clicked,Toast.LENGTH_LONG).show();
 
         Intent i=new Intent(MainActivity.this,Main2Activity.class);
         i.putExtra(Intent.EXTRA_TEXT,b);
@@ -265,16 +327,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 String movieResponse = NetworkUtils
                         .getResponseFromHttpUrl(MoviesURL);
 
-
-
-
-
-
-
-
-
-
-                JSONObject popularJson=new JSONObject(movieResponse);
+                   JSONObject popularJson=new JSONObject(movieResponse);
                 JSONArray Array=popularJson.getJSONArray("results");
                 simple=new String[Array.length()];
                 int i;int j=0;
@@ -316,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
             } else {
-                Toast.makeText(MainActivity.this,"Network Connection",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Network Connection and SWIPE TO DELETE",Toast.LENGTH_LONG).show();
                         SHOWINGFAVIORATEMOVIESLISTHERE();
 
             }
@@ -362,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
                     .build();
 
-   }
+            }
         else
         if(check==2)
         {
@@ -397,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     {
 
 
-
+        Toast.makeText(MainActivity.this,"SWIPE TO DELETE",Toast.LENGTH_SHORT).show();
 
         mrecyclerview.setVisibility(View.GONE);
         mrecyclerviewforfaviorate.setVisibility(View.VISIBLE);

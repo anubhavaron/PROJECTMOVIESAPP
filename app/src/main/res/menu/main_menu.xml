@@ -6,14 +6,10 @@
     >
 
     <item
-
-        android:id="@+id/sort"
-
-        android:title="@string/top_rated"
-        android:showAsAction="never">
-
-
-    </item>
+            android:id="@+id/sort"
+            android:title="@string/top_rated"
+            android:showAsAction="never">
+</item>
 
 
     <item
@@ -22,7 +18,7 @@
         app1:showAsAction="never" />
     <item
         android:id="@+id/sort3"
-        android:title="getAllGuest"
+        android:title="Favorites"
         app1:showAsAction="never" />
 
 </menu>
