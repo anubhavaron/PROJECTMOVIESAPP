@@ -42,13 +42,10 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     SQLiteDatabase mdb;
     static String id_clicked;
     static int value_for_saved_instance=0;
-
-
     String[] id;
     String[] title;
     String[] overview;
     String[] userrating;
-
     String[] release_date;
     String[] simple;
     int check=0;
@@ -60,20 +57,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int x=2;
+        int x=2;        // Means my Grid willshow 2 posters
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
         mdb=db.getWritableDatabase();
-
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
+
+
         mrecyclerviewforfaviorate=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID_Faviorate);
-         mrecyclerview.setLayoutManager(new GridLayoutManager(this,x));
 
 
+        //It is recyclerview to display posters of movie in grid layout
+        mrecyclerview.setLayoutManager(new GridLayoutManager(this,x));
         mrecyclerview.setHasFixedSize(true);
         mAdapter=new PopularMoviesAdapter(this);
-
         mrecyclerview.setAdapter(mAdapter);
-         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
+
+
+        //It is recyclerview if user chooses Faviourate to display or NEtwork problem in App then faviorate will display
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mrecyclerviewforfaviorate.setLayoutManager(layoutManager);
         mrecyclerviewforfaviorate.setHasFixedSize(true);
         mAdapterFaviorate=new FaviorateAdapter(this);
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
-
+        //It is cursor if user swipe out data from Faviorate movies Database
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -92,40 +94,26 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-
-
-
-                int id = (int) viewHolder.itemView.getTag();
-
-
-                String stringId = Integer.toString(id);
-                Uri uri = MoviesDatabaseContract.moviesEntry.CONTENT_URI;
-                uri = uri.buildUpon().appendPath(stringId).build();
-
-
-                getContentResolver().delete(uri, null, null);
-                mAdapterFaviorate.swapCursor(getAllguests());
-
-
+                     int id = (int) viewHolder.itemView.getTag();
+                     String stringId = Integer.toString(id);
+                     Uri uri = MoviesDatabaseContract.moviesEntry.CONTENT_URI;
+                     uri = uri.buildUpon().appendPath(stringId).build();
+                     getContentResolver().delete(uri, null, null);
+                     mAdapterFaviorate.swapCursor(getAllguests());
             }
         }).attachToRecyclerView(mrecyclerviewforfaviorate);
 
 
 
-
+        //Save state will be saved in myInt variable
+        //Using Save STate if myInt is 0 then show default posters if save state if 1 then show
+        //sorting according to top rated and if save state is 2 then sort it according to popularity
 
         if(savedInstanceState==null)
             loadurl();
         else
         {
-
-
-
-
-
             int myInt = savedInstanceState.getInt("MyInt");
-
             if(myInt==0)
                 loadurl();
             else
@@ -142,40 +130,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
             {
                 SHOWINGFAVIORATEMOVIESLISTHERE();
             }
+         }
 
+ }
 
-
-
-
-
-        }
-
-
-
-
-
-
-    }
-
-
+    //Here using savestate using value_for_saved_instance_variable which will be change according to function that will implement sorting
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
+
 
         savedInstanceState.putInt("MyInt", value_for_saved_instance);
 
-        // etc.
+
     }
+    //Restoring from savestate and make changes in app aacording to savestate so that app can return back to previous state
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
-
         int myInt = savedInstanceState.getInt("MyInt");
-
         if(myInt==0)
             loadurl();
         else
@@ -196,31 +169,16 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     }
 
 
-
-
-    //load url function is for TaskFetching Through Main Activity
-    // check =0 makes def
-    // check=1 makes Popularity
-    // check=2 makes Top rated
-    //check=3 makes data show
-
-
+    //This function will Fetch data of posters from internet and if internet connection is not present then it will show Faviorate Movies Database
      public void loadurl()
     {
-
-
         new FetchWeatherTask().execute();
-
-
     }
+    //Give cursor for All data
     public Cursor getAllguests()
     {
-
-        return mdb.query(MoviesDatabaseContract.moviesEntry.TABLE_NAME,null,null,null,null,null,MoviesDatabaseContract.moviesEntry.id_of_item);
-
-
-
-    }
+         return mdb.query(MoviesDatabaseContract.moviesEntry.TABLE_NAME,null,null,null,null,null,MoviesDatabaseContract.moviesEntry.id_of_item);
+     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -233,26 +191,31 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
         if(id==R.id.sort)
-        {
+        {   //IF THIS IS CLICKED IT MEANS i have to sort according to top rated and show it
+            //saving state in next line
             value_for_saved_instance=1;
+
             doingsortaccordingtodefault();
 
         }
         if(id==R.id.sort2)
-        {
+        {   //It means if item clicked i have to sort according to popularity
             value_for_saved_instance=2;
             doingsortaccordingtopopularity();
 
         }
         if(id==R.id.sort3)
-        {
+        {   //It means i have to show data of Favioarte movies database
             value_for_saved_instance=3;
-                SHOWINGFAVIORATEMOVIESLISTHERE();
+
+            SHOWINGFAVIORATEMOVIESLISTHERE();
 
         }
         return true;
     }
-
+    //This function is doing sort according to top rated first it invisible the Favoraite movie recyclerview and show posters Recycler View
+    //Then set recyclerview  of Posters to null so that it can be upgraded then make check =1 ,it will use /top_rated/movies endpoint to
+    //download movies according to top _rated and load url
     public void doingsortaccordingtodefault()
     {
         mrecyclerview.setVisibility(View.VISIBLE);
@@ -264,6 +227,12 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
     }
+    //This function is doing sort according to popularity first it invisible the Favoraite movie recyclerview and show posters Recycler View visible
+    //Then set recyclerview  of Posters to null so that it can be upgraded then make check =2 ,it will use /popular/movies endpoint to
+    //download movies according to top _rated and load url
+
+
+
     public void doingsortaccordingtopopularity()
     {
         mrecyclerview.setVisibility(View.VISIBLE);
@@ -278,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
-
+    //this is implemented just to starting Detail Activity which in my case named as Main2Activity and start intent
     public void onClick(int weatherForDay) {
         Context context = this;
 
@@ -306,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     }
 
 
-
+    //After load url function fetching will start and send posterpath that is named as simple in my code to that adapter so that it can show it.
     public class FetchWeatherTask extends AsyncTask<Object, Object, String[]> {
 
         @Override
@@ -319,10 +288,10 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         @Override
         protected String[] doInBackground(Object... params) {
 
-            /* If there's no zip code, there's nothing to look up. */
 
 
 
+            //Url will call build function that will use check for for confirming that we want to fetch TOP RATED Posters or POPULARITY posters
             URL MoviesURL = buildurl();
 
             try {
@@ -360,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 return null;
             }
         }
-
+        //if fetching is not possible due to bad internet connection then it will show Faviorate mOvies
         @Override
         protected void onPostExecute(String[] weatherData) {
 
@@ -377,11 +346,13 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
             }
         }
     }
-
+    //this is for default show of posters
     private static final String STATIC_WEATHER_URL =
             "https://api.themoviedb.org/3/discover/movie?api_key=14ba823de3e05b5696f262efbdfe38ad";
+    //this will for Top_Rated
     private static final String STATIC_WEATHER_URL2 =
             "https://api.themoviedb.org/3/movie/top_rated?api_key=14ba823de3e05b5696f262efbdfe38ad";
+    //This will be for Popular Fetching
     private static final String STATIC_WEATHER_URL3 =
             "https://api.themoviedb.org/3/movie/popular?api_key=14ba823de3e05b5696f262efbdfe38ad";
 
@@ -393,6 +364,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public URL buildurl()
     {
         Uri builtUri = null;
+
+        //Means we want to fetch normal default data
         if(check==0)
         {
 
@@ -405,7 +378,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
                     .build();
         }
-        else
+        else        //We want to Fetch Data ACcording to Top_Rated as we are using FORECAST_BASE_URL2
         if(check==1)
         {
 
@@ -418,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                     .build();
 
             }
-        else
+        else         //We want to Fetch Data ACcording to Top_Rated as we are using FORECAST_BASE_URL3
         if(check==2)
         {
 
@@ -448,6 +421,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     }
 
+
+    //This function firstly get Cursor and then upgraded the Faviorate movie list with new cursor
     public void SHOWINGFAVIORATEMOVIESLISTHERE()
     {
 
