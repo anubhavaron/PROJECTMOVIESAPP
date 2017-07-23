@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     private static Bundle mBundleRecyclerViewState=null;
     static String[] Data;
-    static int value_for_faviorate=0;//not true
+    static int value_for_faviorate=0;//not true means SavedInstance will not pop up Favioarate Movies List
 
 
 
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
        width = display.getWidth();
        height = display.getHeight();
         Toast.makeText(MainActivity.this,String.valueOf(width),Toast.LENGTH_SHORT).show();
-        int x=2;        // Means my Grid willshow 2 posters
+        int x=2;        // Means my Grid willshow 2 posters in one row
 
 
 
@@ -149,9 +149,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
-        //Save state will be saved in myInt variable
-        //Using Save STate if myInt is 0 then show default posters if save state if 1 then show
-        //sorting according to top rated and if save state is 2 then sort it according to popularity
+
 
 
 
@@ -202,11 +200,13 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
             if(value_for_faviorate==0) {
+                //This will show recycler view having either popular movies or top rated
                 mAdapter.setData(Data,this);
                 mrecyclerview.getLayoutManager().onRestoreInstanceState(listState);
             }
             else
-            {
+            {   //THis will show Faviorate list as my last state was favoraite list
+                //I dont need to do save position for Favoraite movies list as this data is static will not change on rotation
                 SHOWINGFAVIORATEMOVIESLISTHERE();
             }
         }
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         int id=item.getItemId();
         if(id==R.id.sort)
         {   //IF THIS IS CLICKED IT MEANS i have to sort according to top rated and show it
-            //saving state in next line
+            //saving state in next line as value_of_faviorate is 0 cozz on rotation it will show my bundle that last stage was not Faviorate movie list state
             value_for_faviorate=0;
 
             doingsortaccordingtodefault();
@@ -239,12 +239,16 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         }
         if(id==R.id.sort2)
         {   //It means if item clicked i have to sort according to popularity
+            //saving state in next line as value_of_faviorate is 0 cozz on rotation it will show my bundle that last stage was not Faviorate movie list state
+
             value_for_faviorate=0;
             doingsortaccordingtopopularity();
 
         }
         if(id==R.id.sort3)
         {   //It means i have to show data of Favioarte movies database
+            //in show mathod i will using cursor update the recyclerview and my app will show Fav list and in it i make
+            //value _for_faviorate is1 so that bundle will know my last stage was fav Movies List
 
             SHOWINGFAVIORATEMOVIESLISTHERE();
 
