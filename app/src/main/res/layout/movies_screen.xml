@@ -6,10 +6,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#000000"
+        android:padding="4dp"
         android:id="@+id/imageviewid"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="#4e5a60"
-         />
+
 </LinearLayout>

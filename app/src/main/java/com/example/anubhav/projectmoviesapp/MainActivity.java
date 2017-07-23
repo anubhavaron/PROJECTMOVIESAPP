@@ -16,10 +16,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     String[] release_date;
     String[] simple;
     int check=0;
+    static int height;
+    static int width;
 
 
 
@@ -57,6 +61,11 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Display display = getWindowManager().getDefaultDisplay();
+       width = display.getWidth();
+       height = display.getHeight();
+        Toast.makeText(MainActivity.this,String.valueOf(width),Toast.LENGTH_SHORT).show();
         int x=2;        // Means my Grid willshow 2 posters
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
         mdb=db.getWritableDatabase();
@@ -102,6 +111,19 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                      mAdapterFaviorate.swapCursor(getAllguests());
             }
         }).attachToRecyclerView(mrecyclerviewforfaviorate);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

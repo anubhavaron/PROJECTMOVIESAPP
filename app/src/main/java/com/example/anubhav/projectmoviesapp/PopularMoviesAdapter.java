@@ -1,9 +1,11 @@
 package com.example.anubhav.projectmoviesapp;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.StringBuilderPrinter;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +75,11 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         builder.append("http://image.tmdb.org/t/p/w185/");
         builder.append(x);
         String build=builder.toString();
-        Picasso.with(context).load(build).resize(400, 400).into(holder.img);
+
+
+
+
+        Picasso.with(context).load(build).resize(MainActivity.width/2,2*(MainActivity.height)/5).into(holder.img);
 
 
 
