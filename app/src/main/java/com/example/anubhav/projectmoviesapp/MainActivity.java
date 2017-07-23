@@ -47,19 +47,20 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public FaviorateAdapter mAdapterFaviorate;
     SQLiteDatabase mdb;
     static String id_clicked;
-    static int value_for_saved_instance=0;
-    String[] id;
-    String[] title;
-    String[] overview;
-    String[] userrating;
-    String[] release_date;
-    String[] simple;
+
+    static String[] id;
+    static String[] title;
+    static String[] overview;
+    static String[] userrating;
+    static String[] release_date;
+    static String[] simple;
     int check=0;
     static int height;
     static int width;
-    Parcelable listState;
+
     private static Bundle mBundleRecyclerViewState=null;
     static String[] Data;
+    static int value_for_faviorate=0;//not true
 
 
 
@@ -160,24 +161,54 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     protected void onPause()
     {   Log.v("K","Pause");
         super.onPause();
+        Main2Activity.BundleRecyclerViewState=null;
 
         // save RecyclerView state
         mBundleRecyclerViewState = new Bundle();
         Parcelable listState = mrecyclerview.getLayoutManager().onSaveInstanceState();
         mBundleRecyclerViewState.putParcelable("KEY_RECYCLER_STATE", listState);
         mBundleRecyclerViewState.putStringArray("SAVED_RECYCLER_VIEW_DATASET_ID",Data);
+        mBundleRecyclerViewState.putStringArray("TITLE",title);
+        mBundleRecyclerViewState.putStringArray("RELEASE",release_date);
+        mBundleRecyclerViewState.putStringArray("simple",simple);
+        mBundleRecyclerViewState.putStringArray("userrating",userrating);
+        mBundleRecyclerViewState.putStringArray("overview",overview);
+        mBundleRecyclerViewState.putInt("FAV",value_for_faviorate);
+
+
     }
     @Override
     protected void onResume()
     {
         super.onResume();
+        Main2Activity.BundleRecyclerViewState=null;
 
         // restore RecyclerView state
         if (mBundleRecyclerViewState != null) {
             Parcelable listState = mBundleRecyclerViewState.getParcelable("KEY_RECYCLER_STATE");
             Data=mBundleRecyclerViewState.getStringArray("SAVED_RECYCLER_VIEW_DATASET_ID");
-            mAdapter.setData(Data,this);
-            mrecyclerview.getLayoutManager().onRestoreInstanceState(listState);
+
+            title=mBundleRecyclerViewState.getStringArray("TITLE");
+            release_date=mBundleRecyclerViewState.getStringArray("RELEASE");
+            simple=mBundleRecyclerViewState.getStringArray("simple");
+            userrating=mBundleRecyclerViewState.getStringArray("userrating");
+            overview=mBundleRecyclerViewState.getStringArray("overview");
+
+
+
+            value_for_faviorate=mBundleRecyclerViewState.getInt("FAV");
+
+
+
+
+            if(value_for_faviorate==0) {
+                mAdapter.setData(Data,this);
+                mrecyclerview.getLayoutManager().onRestoreInstanceState(listState);
+            }
+            else
+            {
+                SHOWINGFAVIORATEMOVIESLISTHERE();
+            }
         }
     }
 
@@ -201,20 +232,19 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         if(id==R.id.sort)
         {   //IF THIS IS CLICKED IT MEANS i have to sort according to top rated and show it
             //saving state in next line
-            value_for_saved_instance=1;
+            value_for_faviorate=0;
 
             doingsortaccordingtodefault();
 
         }
         if(id==R.id.sort2)
         {   //It means if item clicked i have to sort according to popularity
-            value_for_saved_instance=2;
+            value_for_faviorate=0;
             doingsortaccordingtopopularity();
 
         }
         if(id==R.id.sort3)
         {   //It means i have to show data of Favioarte movies database
-            value_for_saved_instance=3;
 
             SHOWINGFAVIORATEMOVIESLISTHERE();
 
@@ -274,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         built.append("<");
         String b=built.toString();
 
-        Toast.makeText(MainActivity.this,id_clicked,Toast.LENGTH_LONG).show();
+
 
         Intent i=new Intent(MainActivity.this,Main2Activity.class);
         i.putExtra(Intent.EXTRA_TEXT,b);
@@ -348,7 +378,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
             } else {
-                Toast.makeText(MainActivity.this,"Network Connection and SWIPE TO DELETE",Toast.LENGTH_LONG).show();
+
                         SHOWINGFAVIORATEMOVIESLISTHERE();
 
             }
@@ -434,8 +464,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public void SHOWINGFAVIORATEMOVIESLISTHERE()
     {
 
+        value_for_faviorate=1;
 
-        Toast.makeText(MainActivity.this,"SWIPE TO DELETE",Toast.LENGTH_SHORT).show();
 
         mrecyclerview.setVisibility(View.GONE);
         mrecyclerviewforfaviorate.setVisibility(View.VISIBLE);

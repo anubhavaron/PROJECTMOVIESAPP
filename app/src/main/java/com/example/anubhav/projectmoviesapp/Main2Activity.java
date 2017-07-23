@@ -7,12 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +32,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static android.os.Build.VERSION_CODES.M;
+import static com.example.anubhav.projectmoviesapp.MainActivity.Data;
 import static com.example.anubhav.projectmoviesapp.R.id.overview;
 import static com.example.anubhav.projectmoviesapp.R.id.userrating;
 
@@ -51,11 +55,25 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
      String[] key;
      String[] Name;
 
+
     String[] Reviews=null;
     public static String TrailersUrl="https://api.themoviedb.org/3/movie";
     String id;
-
+    String Fetched_Reviews=null;
     ImageView Image;
+
+
+
+
+    public static Bundle BundleRecyclerViewState=null;
+    static String[] Data_Trailers=null;
+    static String Data_Reviews=null;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,10 +209,68 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
 
+        if(BundleRecyclerViewState==null) {
 
-        FetchingStartoftrailer();
+
+            FetchingStartoftrailer();
+
+
+        }
+        else
+        {
+            onResume();
+
+        }
 
     }
+
+
+
+    @Override
+    protected void onPause()
+    {   Log.v("K","Pause");
+        super.onPause();
+
+        // save RecyclerView state
+
+        BundleRecyclerViewState = new Bundle();
+        Parcelable listState = mrecyclerviewtrailers.getLayoutManager().onSaveInstanceState();
+        BundleRecyclerViewState.putParcelable("KEY_RECYCLER_STATE_TRAILER", listState);
+        BundleRecyclerViewState.putStringArray("SAVED_RECYCLER_VIEW_DATASET_ID_TRAILERS",Data_Trailers);
+        BundleRecyclerViewState.putString("Reviews",Data_Reviews);
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+
+        // restore RecyclerView state
+        if (BundleRecyclerViewState != null) {
+            Parcelable listState = BundleRecyclerViewState.getParcelable("KEY_RECYCLER_STATE_TRAILER");
+            Data_Trailers=BundleRecyclerViewState.getStringArray("SAVED_RECYCLER_VIEW_DATASET_ID_TRAILERS");
+            mAdapter.setData(Data_Trailers,this);
+            Data_Reviews=BundleRecyclerViewState.getString("Reviews",Data_Reviews);
+            Testing.setText(Data_Reviews);
+            mrecyclerviewtrailers.getLayoutManager().onRestoreInstanceState(listState);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void FetchingStartoftrailer() {
 
@@ -288,13 +364,15 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
             if (NameData != null) {
 
-
+                Data_Reviews=NameData[0]+"";
 
                 Testing.setText(NameData[0]+"");
 
 
 
             } else {
+
+                Data_Reviews="NO REVIEWS";
                 Testing.setText("NO REVIEWS");
 
 
@@ -362,7 +440,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
             if (NameData != null) {
 
-
+                Data_Trailers=NameData;
 
                 mAdapter.setData(NameData,getApplicationContext());
 
@@ -371,6 +449,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
             } else {
+                Data_Trailers=NameData;
                 mAdapter.setData(null,getApplicationContext());
 
 
