@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
 
+
                 int id = (int) viewHolder.itemView.getTag();
 
 
