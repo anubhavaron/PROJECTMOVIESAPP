@@ -9,16 +9,26 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:padding="8dp"
+        android:background="#4d8e68"
+        android:textColor="#27563a"
         android:id="@+id/textViewforfavoraiteMoviesTitle"
+        android:gravity="center"
 
 
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textviewforfavoraieMoviesOverview"
         android:padding="4dp"
+        android:background="#4d8e68"
+        android:textColor="#b2d2b7"
         android:textSize="16sp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="#93bca3"
         />
 
 </LinearLayout>

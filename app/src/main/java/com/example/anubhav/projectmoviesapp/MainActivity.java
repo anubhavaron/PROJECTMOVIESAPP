@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int x=3;
+        int x=2;
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
         mdb=db.getWritableDatabase();
 
@@ -87,12 +87,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         mAdapter=new PopularMoviesAdapter(this);
 
         mrecyclerview.setAdapter(mAdapter);
-        Cursor cursor=getAllguests();
+
+
+
+
+
+
+
+
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mrecyclerviewforfaviorate.setLayoutManager(layoutManager);
         mrecyclerviewforfaviorate.setHasFixedSize(true);
-        mAdapterFaviorate=new FaviorateAdapter(this,cursor);
+        mAdapterFaviorate=new FaviorateAdapter(this);
         mrecyclerviewforfaviorate.setAdapter(mAdapterFaviorate);
+        mAdapterFaviorate.swapCursor(null);
+
+
+
+
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -174,14 +187,16 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
         if(id==R.id.sort)
-        {
+        {   mrecyclerview.setVisibility(View.VISIBLE);
+            mrecyclerviewforfaviorate.setVisibility(View.INVISIBLE);
             mAdapter.setData(null,this);
             check=1;
 
             loadurl();
         }
         if(id==R.id.sort2)
-        {
+        {   mrecyclerview.setVisibility(View.VISIBLE);
+            mrecyclerviewforfaviorate.setVisibility(View.INVISIBLE);
             mAdapter.setData(null,this);
             check=2;
 
@@ -193,36 +208,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         if(id==R.id.sort3)
         {
 
-            mrecyclerviewforfaviorate.setVisibility(View.VISIBLE);
-            /*Cursor cursor=getAllguests();
-            StringBuilder b=new StringBuilder();
-            b.append("1 ");
-            while(cursor.moveToNext())
-            {
-
-
-                b.append(cursor.getString(cursor.getColumnIndex(MoviesDatabaseContract.moviesEntry.title_of_item)));
-
-
-            }*/
-            Cursor cursor= getContentResolver().query(MoviesDatabaseContract.moviesEntry.CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    MoviesDatabaseContract.moviesEntry.id_of_item);
-
-
-            mAdapterFaviorate.swapCursor(cursor);
-
-
-
-
-
-
-
-
-
-
+                SHOWINGFAVIORATEMOVIESLISTHERE();
 
         }
         return true;
@@ -308,29 +294,11 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                     String x=ob.getString("vote_average");
                     userrating[i]=x;
                     release_date[i]=ob.getString("release_date");
+        }
 
+            return simple;
 
-
-
-
-
-
-
-
-
-                }
-
-
-
-
-
-                return simple;
-
-
-
-
-
-            } catch (Exception e) {
+      } catch (Exception e) {
 
                 e.printStackTrace();
                 return null;
@@ -392,15 +360,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
                     .build();
 
-
-
-
-
-
-
-
-
-        }
+   }
         else
         if(check==2)
         {
@@ -415,12 +375,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
         }
-
-
-
-
-
-        URL url=null;
+             URL url=null;
         try
         {
             url=new URL(builtUri.toString());
@@ -435,18 +390,30 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
     }
-    public boolean removeguest(int id)
+
+    public void SHOWINGFAVIORATEMOVIESLISTHERE()
     {
 
-        return mdb.delete(MoviesDatabaseContract.moviesEntry.TABLE_NAME,MoviesDatabaseContract.moviesEntry.id_of_item+"="+id,null)>0;
+
+
+
+        mrecyclerview.setVisibility(View.GONE);
+        mrecyclerviewforfaviorate.setVisibility(View.VISIBLE);
+
+
+        Cursor cursor= getContentResolver().query(MoviesDatabaseContract.moviesEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                MoviesDatabaseContract.moviesEntry.id_of_item);
+
+
+        mAdapterFaviorate.swapCursor(cursor);
+
+
 
 
     }
-
-
-
-
-
 
 
 

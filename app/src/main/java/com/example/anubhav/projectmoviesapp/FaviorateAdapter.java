@@ -24,11 +24,11 @@ public class FaviorateAdapter extends RecyclerView.Adapter<FaviorateAdapter.NUMB
 
     private Cursor mcursor;
     private Context mcontext;
-    public FaviorateAdapter(Context context,Cursor cursor)
+    public FaviorateAdapter(Context context)
     {
 
         this.mcontext=context;
-        this.mcursor=cursor;
+
 
 
     }
@@ -68,7 +68,9 @@ public class FaviorateAdapter extends RecyclerView.Adapter<FaviorateAdapter.NUMB
     @Override
     public int getItemCount() {
 
-
+            if(mcursor==null)
+                return 0;
+        else
             return mcursor.getCount();
 
 
