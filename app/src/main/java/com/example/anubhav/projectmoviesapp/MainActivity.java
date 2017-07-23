@@ -315,7 +315,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
 
             } else {
-                        mAdapter.setData(null,getApplicationContext());
+                Toast.makeText(MainActivity.this,"Network Connection",Toast.LENGTH_SHORT).show();
+                        SHOWINGFAVIORATEMOVIESLISTHERE();
 
             }
         }
