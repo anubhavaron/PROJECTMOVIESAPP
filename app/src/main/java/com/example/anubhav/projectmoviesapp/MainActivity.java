@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         //This width and height will be used to set Image half of Screen size so that 2 images can be set in one row
        width = display.getWidth();
        height = display.getHeight();
-        Toast.makeText(MainActivity.this,String.valueOf(width),Toast.LENGTH_SHORT).show();
+
         int x=2;        // Means my Grid willshow 2 posters in one row
 
 
