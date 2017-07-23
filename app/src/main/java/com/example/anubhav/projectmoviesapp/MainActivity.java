@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +31,9 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.R.attr.data;
 import static android.R.attr.rating;
@@ -53,20 +57,28 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     int check=0;
     static int height;
     static int width;
+    Parcelable listState;
+    private static Bundle mBundleRecyclerViewState=null;
+    static String[] Data;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v("k","create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         Display display = getWindowManager().getDefaultDisplay();
+        //This width and height will be used to set Image half of Screen size so that 2 images can be set in one row
        width = display.getWidth();
        height = display.getHeight();
         Toast.makeText(MainActivity.this,String.valueOf(width),Toast.LENGTH_SHORT).show();
         int x=2;        // Means my Grid willshow 2 posters
+
+
+
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
         mdb=db.getWritableDatabase();
         mrecyclerview=(RecyclerView)findViewById(R.id.RECYCLER_VIEW_ID);
@@ -108,16 +120,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                      Uri uri = MoviesDatabaseContract.moviesEntry.CONTENT_URI;
                      uri = uri.buildUpon().appendPath(stringId).build();
                      getContentResolver().delete(uri, null, null);
-                     mAdapterFaviorate.swapCursor(getAllguests());
+
+                        Cursor cursor= getContentResolver().query(MoviesDatabaseContract.moviesEntry.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        MoviesDatabaseContract.moviesEntry.id_of_item);
+                     mAdapterFaviorate.swapCursor(cursor);
             }
         }).attachToRecyclerView(mrecyclerviewforfaviorate);
 
 
 
 
-
-
-
+        if(mBundleRecyclerViewState==null)
+        loadurl();
+        else
+        {
+            onResume();
+        }
 
 
 
@@ -131,76 +152,41 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         //Using Save STate if myInt is 0 then show default posters if save state if 1 then show
         //sorting according to top rated and if save state is 2 then sort it according to popularity
 
-        if(savedInstanceState==null)
-            loadurl();
-        else
-        {
-            int myInt = savedInstanceState.getInt("MyInt");
-            if(myInt==0)
-                loadurl();
-            else
-            if(myInt==1)
-            {
-                doingsortaccordingtodefault();
-            }
-            else
-            if(myInt==2)
-            {
-                doingsortaccordingtopopularity();
-            }
-            else
-            {
-                SHOWINGFAVIORATEMOVIESLISTHERE();
-            }
-         }
+
 
  }
 
-    //Here using savestate using value_for_saved_instance_variable which will be change according to function that will implement sorting
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
+    protected void onPause()
+    {   Log.v("K","Pause");
+        super.onPause();
 
-
-        savedInstanceState.putInt("MyInt", value_for_saved_instance);
-
-
+        // save RecyclerView state
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable listState = mrecyclerview.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable("KEY_RECYCLER_STATE", listState);
+        mBundleRecyclerViewState.putStringArray("SAVED_RECYCLER_VIEW_DATASET_ID",Data);
     }
-    //Restoring from savestate and make changes in app aacording to savestate so that app can return back to previous state
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        int myInt = savedInstanceState.getInt("MyInt");
-        if(myInt==0)
-            loadurl();
-        else
-            if(myInt==1)
-            {
-                doingsortaccordingtodefault();
-            }
-            else
-                if(myInt==2)
-                {
-                    doingsortaccordingtopopularity();
-                }
-                else
-                {
-                    SHOWINGFAVIORATEMOVIESLISTHERE();
-                }
+    protected void onResume()
+    {
+        super.onResume();
 
+        // restore RecyclerView state
+        if (mBundleRecyclerViewState != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable("KEY_RECYCLER_STATE");
+            Data=mBundleRecyclerViewState.getStringArray("SAVED_RECYCLER_VIEW_DATASET_ID");
+            mAdapter.setData(Data,this);
+            mrecyclerview.getLayoutManager().onRestoreInstanceState(listState);
+        }
     }
-
 
     //This function will Fetch data of posters from internet and if internet connection is not present then it will show Faviorate Movies Database
      public void loadurl()
     {
         new FetchWeatherTask().execute();
     }
-    //Give cursor for All data
-    public Cursor getAllguests()
-    {
-         return mdb.query(MoviesDatabaseContract.moviesEntry.TABLE_NAME,null,null,null,null,null,MoviesDatabaseContract.moviesEntry.id_of_item);
-     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -357,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
             if (weatherData != null) {
 
-
+                Data=weatherData;
                 mAdapter.setData(weatherData,getApplicationContext());
 
 
