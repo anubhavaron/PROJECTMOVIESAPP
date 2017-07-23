@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#644c72"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
 <ScrollView android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
 
 
-    android:background="#BDBDBD">
+    >
 
 
 
@@ -11,84 +20,130 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:background="#BDBDBD"
+
 
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.example.anubhav.projectmoviesapp.Main2Activity"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView android:layout_height="200dp"
-            android:layout_width="match_parent"
-            android:id="@+id/RECYCLER_VIEW_ID_TRAILERS"
-            />
 
-        <Button
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:text="ADD TO FAVIORATE"
-            android:onClick="CLICKIT"/>
 
         <ImageView
             android:layout_width="match_parent"
-            android:background="#BDBDBD"
+
             android:layout_height="280dp"
 
             android:id="@+id/I"
             />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <TextView
             android:layout_marginTop="10dp"
             android:paddingTop="2dp"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
 
-            android:background="#BDBDBD"
+
             android:layout_height="wrap_content"
             android:id="@+id/title"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="#000000"
-            android:textSize="26dp"
+            android:textColor="#ffffff"
+            android:textSize="22dp"
             />
 
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:background="#BDBDBD"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="26dp"
-            android:paddingTop="2dp"
-            android:id="@+id/releasedate"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+
+                android:textSize="26dp"
+                android:paddingTop="2dp"
+                android:id="@+id/releasedate"
+                android:textColor="#ffffff"/>
+      </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#ffffff"
+            android:layout_marginTop="1dp"
+
+            />
+
+
+
+
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#BDBDBD"
+
             android:paddingTop="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:textSize="15dp"
             android:layout_marginRight="10dp"
-            android:textColor="#000000"
-            android:id="@+id/overview"/>
+            android:textColor="#ffffff"
+            android:textStyle="italic"
+            android:id="@+id/overview"
+            android:layout_marginBottom="1dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:layout_marginTop="1dp"
+
+            />
+
+
+
+
+        <android.support.v7.widget.RecyclerView android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/RECYCLER_VIEW_ID_TRAILERS"
+            />
+
+
+
+
+
+
+
+
+
+
 
 
         <TextView
             android:layout_width="250dp"
             android:layout_marginLeft="60dp"
             android:layout_height="wrap_content"
-            android:background="#BDBDBD"
+
             android:paddingLeft="15dp"
             android:textSize="30dp"
             android:layout_marginTop="10dp"
             android:numStars="5"
+            android:textColor="#ffffff"
             android:id="@+id/userrating"/>
 
-        <EditText
+        <TextView
+            android:layout_marginLeft="2dp"
+
+            android:layout_marginRight="2dp"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/testing"/>
+            android:id="@+id/testing"
+            android:gravity="center"/>
 
 
 
@@ -96,6 +151,15 @@
     </LinearLayout>
 
 </ScrollView>
+<android.support.design.widget.FloatingActionButton
+android:id="@+id/fab"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_gravity="bottom|end"
+android:layout_margin="@dimen/fab_margin"
+android:src="@drawable/red_heart_311569"
+    app:backgroundTint="#ffffff"/>
+    </android.support.design.widget.CoordinatorLayout>
 
 
 

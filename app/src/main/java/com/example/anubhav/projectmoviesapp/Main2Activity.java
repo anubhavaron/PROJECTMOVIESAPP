@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -32,7 +34,7 @@ import static com.example.anubhav.projectmoviesapp.R.id.overview;
 import static com.example.anubhav.projectmoviesapp.R.id.userrating;
 
 public class Main2Activity extends AppCompatActivity implements TrailerMoviesAdapter.TrailerMoviesAdapterOnClickHandler{
-
+    private FloatingActionButton fab;
 
     RecyclerView mrecyclerviewtrailers;
 
@@ -42,7 +44,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
     TextView TITLE;
     TextView RELEASE;
     TextView USERNAME;
-    EditText Testing;
+    TextView Testing;
     String id_of_that_item;
     String overview_of_that_item;
     String title_of_that_item;
@@ -67,7 +69,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
 
-        Testing=(EditText)findViewById(R.id.testing);
+        Testing=(TextView) findViewById(R.id.testing);
 
 
         id_of_that_item=MainActivity.id_clicked;
@@ -178,6 +180,17 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
 
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clicking();
+                fab.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+
 
         FetchingStartoftrailer();
 
@@ -192,7 +205,11 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
     }
 
-    public void CLICKIT(View view) {
+
+
+
+    public void clicking()
+    {
 
 
         ContentValues cv=new ContentValues();
@@ -207,7 +224,15 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         Toast.makeText(Main2Activity.this,"Inserted",Toast.LENGTH_SHORT).show();
         */
         Uri uri=getContentResolver().insert(MoviesDatabaseContract.moviesEntry.CONTENT_URI,cv);
-        Toast.makeText(Main2Activity.this,uri.toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(Main2Activity.this,"ADDED TO favourites",Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
 
 
     }
@@ -270,7 +295,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
 
             } else {
-                Testing.setText("kuch nh liya");
+                Testing.setText("NO REVIEWS");
 
 
             }
