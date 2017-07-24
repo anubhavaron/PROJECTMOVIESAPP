@@ -474,7 +474,8 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
         StringBuilder BaseUrlString=new StringBuilder();
         BaseUrlString.append(TrailersUrl);
-        BaseUrlString.append("/"+id+"/videos"+"?api_key=14ba823de3e05b5696f262efbdfe38ad");
+        //TODO ADD API key
+        BaseUrlString.append("/"+id+"/videos"+"?api_key=<key>");
         String BaseUrlStr=BaseUrlString.toString();
 
         trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()
@@ -499,7 +500,8 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
         StringBuilder BaseUrlString=new StringBuilder();
         BaseUrlString.append(TrailersUrl);
-        BaseUrlString.append("/"+id+"/reviews"+"?api_key=14ba823de3e05b5696f262efbdfe38ad");
+        //TODO Add API KEY
+        BaseUrlString.append("/"+id+"/reviews"+"?api_key=<key>");
         String BaseUrlStr=BaseUrlString.toString();
 
         trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()

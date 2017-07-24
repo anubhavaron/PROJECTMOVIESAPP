@@ -389,14 +389,17 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         }
     }
     //this is for default show of posters
+    //TODO API key should be added here
     private static final String STATIC_WEATHER_URL =
-            "https://api.themoviedb.org/3/discover/movie?api_key=14ba823de3e05b5696f262efbdfe38ad";
+            "https://api.themoviedb.org/3/discover/movie?api_key=<key>";
     //this will for Top_Rated
+    //TODO API key should be added here
     private static final String STATIC_WEATHER_URL2 =
-            "https://api.themoviedb.org/3/movie/top_rated?api_key=14ba823de3e05b5696f262efbdfe38ad";
+            "https://api.themoviedb.org/3/movie/top_rated?api_key=<key>";
     //This will be for Popular Fetching
+    //TODO API key should be added here
     private static final String STATIC_WEATHER_URL3 =
-            "https://api.themoviedb.org/3/movie/popular?api_key=14ba823de3e05b5696f262efbdfe38ad";
+            "https://api.themoviedb.org/3/movie/popular?api_key=<key>";
 
     private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
     private static final String FORECAST_BASE_URL2 = STATIC_WEATHER_URL2;
