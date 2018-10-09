@@ -1,7 +1,6 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -9,14 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,16 +22,13 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static android.os.Build.VERSION_CODES.M;
-import static com.example.anubhav.projectmoviesapp.MainActivity.Data;
-import static com.example.anubhav.projectmoviesapp.R.id.overview;
-import static com.example.anubhav.projectmoviesapp.R.id.userrating;
+import static com.anubhav.anubhav.projectmoviesapp.R.id.overview;
+import static com.anubhav.anubhav.projectmoviesapp.R.id.userrating;
 
 public class Main2Activity extends AppCompatActivity implements TrailerMoviesAdapter.TrailerMoviesAdapterOnClickHandler{
     private FloatingActionButton fab;
@@ -76,13 +69,14 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
 
         MoviesDatabaseDbHelper db=new MoviesDatabaseDbHelper(this);
         mydb=db.getWritableDatabase();
-
+        Toast.makeText(Main2Activity.this, "ADD IT TO FAVOURATES", Toast.LENGTH_SHORT).show();
 
 
 
@@ -475,7 +469,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         StringBuilder BaseUrlString=new StringBuilder();
         BaseUrlString.append(TrailersUrl);
         //TODO ADD API key
-        BaseUrlString.append("/"+id+"/videos"+"?api_key=<key>");
+        BaseUrlString.append("/"+id+"/videos"+"?api_key=ced2634ae9f8ce2a87af24cd8fde16aa");
         String BaseUrlStr=BaseUrlString.toString();
 
         trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()
@@ -501,7 +495,7 @@ public class Main2Activity extends AppCompatActivity implements TrailerMoviesAda
         StringBuilder BaseUrlString=new StringBuilder();
         BaseUrlString.append(TrailersUrl);
         //TODO Add API KEY
-        BaseUrlString.append("/"+id+"/reviews"+"?api_key=<key>");
+        BaseUrlString.append("/"+id+"/reviews"+"?api_key=ced2634ae9f8ce2a87af24cd8fde16aa");
         String BaseUrlStr=BaseUrlString.toString();
 
         trailerBuiltUri=Uri.parse(BaseUrlStr).buildUpon()

@@ -1,4 +1,4 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,8 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import static com.example.anubhav.projectmoviesapp.MoviesDatabaseContract.moviesEntry.TABLE_NAME;
 
 /**
  * Created by ANUBHAV on 7/23/2017.

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.anubhav.projectmoviesapp">
+    package="com.anubhav.anubhav.projectmoviesapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/images"
+        android:label="MOVIE LIST"
+        android:roundIcon="@drawable/images"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.anubhav.anubhav.projectmoviesapp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,13 +20,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main2Activity"
+            android:name="com.anubhav.anubhav.projectmoviesapp.Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
-            android:authorities="com.example.anubhav.projectmoviesapp"
-            android:name="com.example.anubhav.projectmoviesapp.MoviesDatabaseContractProvider"
+            android:authorities="com.anubhav.anubhav.projectmoviesapp"
+            android:name="com.anubhav.anubhav.projectmoviesapp.MoviesDatabaseContractProvider"
             android:exported="false"/>
 
 

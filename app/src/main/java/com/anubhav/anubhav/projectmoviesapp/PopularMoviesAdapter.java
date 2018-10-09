@@ -1,20 +1,13 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
-import android.util.StringBuilderPrinter;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-
-import static android.R.attr.onClick;
-import static android.R.attr.x;
 
 /**
  * Created by ANUBHAV on 6/30/2017.

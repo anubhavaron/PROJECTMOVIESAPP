@@ -1,4 +1,4 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
 import org.junit.Test;
 

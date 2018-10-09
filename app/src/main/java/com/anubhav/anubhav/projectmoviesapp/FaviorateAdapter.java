@@ -1,4 +1,4 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,13 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-
-import static android.R.attr.data;
 
 /**
  * Created by ANUBHAV on 7/22/2017.

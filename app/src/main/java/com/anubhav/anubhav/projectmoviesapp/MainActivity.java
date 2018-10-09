@@ -1,12 +1,9 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Parcelable;
@@ -22,8 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -31,13 +26,6 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static android.R.attr.data;
-import static android.R.attr.rating;
-import static android.R.attr.x;
 
 public class MainActivity extends AppCompatActivity implements PopularMoviesAdapter.PopularMoviesAdapterOnClickHandler {
 
@@ -47,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     public FaviorateAdapter mAdapterFaviorate;
     SQLiteDatabase mdb;
     static String id_clicked;
-
+Context c;
     static String[] id;
     static String[] title;
     static String[] overview;
@@ -66,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        c=getApplicationContext();
+        //Toast.makeText(MainActivity.this,"Hi",Toast.LENGTH_LONG).show();
         Log.v("k","create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -249,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         {   //It means i have to show data of Favioarte movies database
             //in show mathod i will using cursor update the recyclerview and my app will show Fav list and in it i make
             //value _for_faviorate is1 so that bundle will know my last stage was fav Movies List
-
+            Toast.makeText(MainActivity.this, "RIGHT SWIPE TO DELETE MOVIE", Toast.LENGTH_SHORT).show();
             SHOWINGFAVIORATEMOVIESLISTHERE();
 
         }
@@ -380,6 +370,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                 Data=weatherData;
                 mAdapter.setData(weatherData,getApplicationContext());
 
+                Toast.makeText(MainActivity.this,"CLICK ON POSTERS TO SEE DETAILS",Toast.LENGTH_LONG).show();
+
 
             } else {
 
@@ -391,15 +383,15 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     //this is for default show of posters
     //TODO API key should be added here
     private static final String STATIC_WEATHER_URL =
-            "https://api.themoviedb.org/3/discover/movie?api_key=<key>";
+            "https://api.themoviedb.org/3/discover/movie?api_key=ced2634ae9f8ce2a87af24cd8fde16aa";
     //this will for Top_Rated
     //TODO API key should be added here
     private static final String STATIC_WEATHER_URL2 =
-            "https://api.themoviedb.org/3/movie/top_rated?api_key=<key>";
+            "https://api.themoviedb.org/3/movie/top_rated?api_key=ced2634ae9f8ce2a87af24cd8fde16aa";
     //This will be for Popular Fetching
     //TODO API key should be added here
     private static final String STATIC_WEATHER_URL3 =
-            "https://api.themoviedb.org/3/movie/popular?api_key=<key>";
+            "https://api.themoviedb.org/3/movie/popular?api_key=ced2634ae9f8ce2a87af24cd8fde16aa";
 
     private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
     private static final String FORECAST_BASE_URL2 = STATIC_WEATHER_URL2;

@@ -1,4 +1,4 @@
-package com.example.anubhav.projectmoviesapp;
+package com.anubhav.anubhav.projectmoviesapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
